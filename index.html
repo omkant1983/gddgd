@@ -434,7 +434,8 @@
   const sidebar = document.querySelector('.main-sidebar');
   const toggleBtn = document.getElementById('sidebarToggle');
   const backdrop = document.querySelector('.sidebar-backdrop');
-  toggleBtn.onclick = function() {
+  toggleBtn.onclick = function(e) {
+    e.stopPropagation();
     sidebar.classList.toggle('active');
     backdrop.classList.toggle('active');
   };
@@ -442,6 +443,15 @@
     sidebar.classList.remove('active');
     backdrop.classList.remove('active');
   };
+  // Optional: close sidebar when clicking outside (mobile)
+  document.body.addEventListener('click', function(e) {
+    if (window.innerWidth <= 991 && sidebar.classList.contains('active')) {
+      if (!sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
+        sidebar.classList.remove('active');
+        backdrop.classList.remove('active');
+      }
+    }
+  });
 
   init();
   </script>
