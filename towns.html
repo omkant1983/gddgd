@@ -60,6 +60,27 @@
       }
       #sidebarToggle {
         display: block !important;
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 3000;           /* Highest z-index to stay on top */
+        width: 56px;             /* Larger clickable area */
+        height: 56px;
+        padding: 0;
+        background: transparent;  /* Transparent background */
+        border: none;
+        box-shadow: none;
+        color: #007bff;
+        border-radius: 50%;
+        cursor: pointer;
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #sidebarToggle i {
+        font-size: 2rem;
+        pointer-events: none;    /* Ensures the button itself gets the click */
       }
       .sidebar-backdrop {
         display: none;
