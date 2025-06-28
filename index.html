@@ -117,47 +117,22 @@
       .main-sidebar.active {
         left: 0;
       }
-      #sidebarToggle {
-        display: block !important;
-        position: fixed;
-        top: 12px;
-        left: 12px;
-        z-index: 3000;           /* Highest z-index to stay on top */
-        width: 56px;             /* Larger clickable area */
-        height: 56px;
-        padding: 0;
-        background: transparent;  /* Transparent background */
-        border: none;
-        box-shadow: none;
-        color: #007bff;
-        border-radius: 50%;
-        cursor: pointer;
-        outline: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        touch-action: manipulation;
-      }
-      #sidebarToggle i {
-        font-size: 2rem;
-        pointer-events: none;    /* Ensures the button itself gets the click */
-      }
       .sidebar-backdrop {
-        display: none;
+        display: block;
         position: fixed;
         z-index: 1049;
         top: 0; left: 0; width: 100vw; height: 100vh;
         background: rgba(0,0,0,0.3);
       }
-      .sidebar-backdrop.active {
-        display: block;
+      .sidebar-backdrop:not(.active) {
+        display: none;
       }
       .content-wrapper {
         margin-left: 0;
       }
     }
     @media (min-width: 992px) {
-      #sidebarToggle, .sidebar-backdrop {
+      .sidebar-backdrop {
         display: none !important;
       }
     }
@@ -176,29 +151,16 @@
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-  <button id="sidebarToggle" class="btn btn-primary">
-    <i class="fas fa-bars"></i>
-  </button>
   <div class="sidebar-backdrop"></div>
 
   <!-- AdminLTE Sidebar -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="index.html" class="brand-link">
-      <img src="soi.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AMRUT 2.0</span>
-    </a>
+    <!-- Brand Logo (empty or minimal, since logo is now in navbar) -->
+    <a href="index.html" class="brand-link"></a>
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="amrut-logo.png" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Gujarat Daman & Diu GD</a>
-        </div>
-      </div>
+      <!-- Sidebar user panel (optional, can be removed or kept minimal) -->
+      <!-- You can remove this user panel if not needed -->
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
@@ -229,10 +191,13 @@
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button" id="sidebarToggle2"><i class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="index.html" class="nav-link">Home</a>
+        <li class="nav-item d-flex align-items-center">
+          <img src="soi.png" alt="Logo" style="height:32px;width:auto;margin-right:8px;">
+          <span style="font-weight:bold;font-size:1.05rem;color:#0056b3;">Gujarat Daman &amp; Diu GD</span>
         </li>
       </ul>
+      <!-- Centered AMRUT 2.0 -->
+      <span class="mx-auto d-none d-md-block" style="font-weight:bold;font-size:1.1rem;color:#e85a8b;">AMRUT 2.0</span>
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
@@ -482,10 +447,9 @@
 
   // Sidebar toggle for mobile
   const sidebar = document.querySelector('.main-sidebar');
-  const toggleBtn = document.getElementById('sidebarToggle');
   const toggleBtn2 = document.getElementById('sidebarToggle2');
   const backdrop = document.querySelector('.sidebar-backdrop');
-  toggleBtn.onclick = toggleBtn2.onclick = function(e) {
+  toggleBtn2.onclick = function(e) {
     e.preventDefault();
     sidebar.classList.toggle('active');
     backdrop.classList.toggle('active');
@@ -496,7 +460,7 @@
   };
   document.body.addEventListener('click', function(e) {
     if (window.innerWidth <= 991 && sidebar.classList.contains('active')) {
-      if (!sidebar.contains(e.target) && !toggleBtn.contains(e.target) && !toggleBtn2.contains(e.target)) {
+      if (!sidebar.contains(e.target) && !toggleBtn2.contains(e.target)) {
         sidebar.classList.remove('active');
         backdrop.classList.remove('active');
       }
