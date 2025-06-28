@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fully Scrollable Milestone Chart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    .timeline-container {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      padding: 2rem;
+      overflow-x: auto;
+    }
+
+    .chart-wrapper {
+      width: 1800px; /* Large width for long date range */
+      height: 700px;
+      overflow-y: auto;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    h2 {
+      color: #0056b3;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="timeline-container">
+    <h2>Scrollable Milestone Chart with Points & Timeline</h2>
+    <div class="chart-wrapper">
+      <canvas id="timelineChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const SHEET_API = 'https://script.google.com/macros/s/AKfycbzigzh2j9yMyi_CbqFXMZLeWkCsqqerRPc9sxoAFJCnVRDyf37Og-IuuYmdlN1XTny6zA/exec';
+
+    const timelineFields = [
+      { key: "Plan received from Firm", label: "Plan Received", color: "#007bff" },
+      { key: "Plan Approved", label: "Plan Approved", color: "#ffc107" },
+      { key: "2nd Milestone Target", label: "2nd Milestone", color: "#28a745" }
+    ];
+
+    async function drawGroupedChart() {
+      const res = await fetch(SHEET_API);
+      const data = await res.json();
+
+      const townMap = {};
+      data.forEach(row => {
+        const town = row.Town || "Unknown";
+        if (!townMap[town]) townMap[town] = row;
+      });
+
+      const towns = Object.keys(townMap);
+
+      const allDates = [];
+      towns.forEach(town => {
+        timelineFields.forEach(f => {
+          const val = townMap[town][f.key];
+          if (val) allDates.push(new Date(val));
+        });
+      });
+
+      const minDate = new Date(Math.min(...allDates));
+      const maxDate = new Date(Math.max(...allDates));
+      const today = new Date();
+      const todayOffset = (today - minDate) / (1000 * 60 * 60 * 24);
+
+      const datasets = timelineFields.map((field, index) => ({
+        label: field.label,
+        backgroundColor: field.color,
+        data: towns.map(town => {
+          const rawDate = townMap[town][field.key];
+          if (rawDate) {
+            const diff = (new Date(rawDate) - minDate) / (1000 * 60 * 60 * 24);
+            return Math.max(diff, 1);
+          }
+          return 0;
+        }),
+        barThickness: 10,
+        order: index,
+        stack: 'group',
+        datalabels: {
+          anchor: 'end',
+          align: 'end',
+          offset: 4,
+          backgroundColor: '#000',
+          borderRadius: 4,
+          color: '#fff',
+          font: { weight: 'bold', size: 10 },
+          formatter: (value, ctx) => {
+            if (value === 0) return '';
+            const date = new Date(minDate.getTime() + value * 86400000);
+            return date.toISOString().slice(0, 10);
+          },
+          display: 'auto'
+        }
+      }));
+
+      const ctx = document.getElementById('timelineChart').getContext('2d');
+      if (window.timelineChartInstance) window.timelineChartInstance.destroy();
+
+      window.timelineChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: towns,
+          datasets: datasets
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: true, position: 'top' },
+            datalabels: {},
+            tooltip: {
+              callbacks: {
+                label: ctx => {
+                  const days = ctx.raw;
+                  const date = new Date(minDate.getTime() + days * 86400000);
+                  return `${ctx.dataset.label}: ${date.toISOString().slice(0, 10)}`;
+                }
+              }
+            },
+            annotation: {
+              annotations: {
+                todayLine: {
+                  type: 'line',
+                  xMin: todayOffset,
+                  xMax: todayOffset,
+                  borderColor: 'red',
+                  borderWidth: 2,
+                  label: {
+                    content: 'Today',
+                    enabled: true,
+                    position: 'start',
+                    backgroundColor: 'rgba(255,0,0,0.1)',
+                    color: 'red',
+                    font: { style: 'bold' }
+                  }
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              min: 0,
+              max: (maxDate - minDate) / (1000 * 60 * 60 * 24),
+              title: {
+                display: true,
+                text: 'Date',
+                font: { size: 16 }
+              },
+              ticks: {
+                callback: value => {
+                  const d = new Date(minDate.getTime() + value * 86400000);
+                  return d.toISOString().slice(0, 10);
+                },
+                font: { size: 12 }
+              }
+            },
+            y: {
+              title: { display: true, text: 'Town', font: { size: 16 } },
+              ticks: { font: { size: 13 }, color: '#333' },
+              stacked: false
+            }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+    }
+
+    drawGroupedChart();
+  </script>
+</body>
+</html>

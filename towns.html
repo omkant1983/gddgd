@@ -116,222 +116,309 @@
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<button id="sidebarToggle" class="btn btn-primary" style="position:fixed;top:12px;left:12px;z-index:2001;display:none;">
-  <i class="fas fa-bars"></i>
-</button>
-<div class="sidebar-backdrop"></div>
-<div id="loadingOverlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2000;background:rgba(255,255,255,0.8);display:flex;align-items:center;justify-content:center;">
-  <div>
-    <i class="fas fa-spinner fa-spin fa-3x" style="color:#007bff;"></i>
-    <div style="margin-top:10px;text-align:center;color:#007bff;font-weight:bold;">Loading...</div>
+  <div class="sidebar-backdrop"></div>
+  <div id="loadingOverlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2000;background:rgba(255,255,255,0.8);display:flex;align-items:center;justify-content:center;">
+    <div>
+      <i class="fas fa-spinner fa-spin fa-3x" style="color:#007bff;"></i>
+      <div style="margin-top:10px;text-align:center;color:#007bff;font-weight:bold;">Loading...</div>
+    </div>
   </div>
-</div>
-<div class="wrapper">
+  <div class="wrapper">
 
-  <!-- Navbar (same as index.html) -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light top-navbar-fixed" style="display: flex; justify-content: space-between; align-items: center;">
-    <div class="d-flex align-items-center">
-      <img src="soi.png" alt="SOI Logo" style="height: 40px; width: auto; margin-right: 10px;">
-      <div style="display: flex; flex-direction: column; line-height: 1;">
-        <span style="font-weight: bold; font-size: 1.1rem; color: #0056b3;">GUJARAT DAMAN &amp; DIU GD</span>
-        <span style="font-size: 0.95rem; color: #e85a8b; font-weight: bold;">AMRUT 2.0</span>
-      </div>
-    </div>
-    <div class="d-flex align-items-center">
-      <img src="amrut-logo.png" alt="Top Logo" style="height: 60px; width: auto; margin-left: 10px;">
-    </div>
-  </nav>
-
-  <!-- Sidebar (same as index.html) -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="#" class="brand-link d-flex align-items-center p-2 sidebar-header-rose"
-       style="width:100%; background: #0056b3; color: #fff; box-sizing: border-box; height: 65px; min-height: 65px;">
-      <img src="soi.png" alt="Logo" style="width: 45px; height: auto; margin-right: 10px;">
-      <div>
-        <span class="brand-text font-weight-bold" style="font-size: 1.2rem; color: #fff;">SOI</span>
-      </div>
-    </a>
-    <div class="sidebar">
-      <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
+    <!-- Navbar (same as index.html) -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light top-navbar-fixed">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
         <li class="nav-item">
-          <a href="index.html" class="nav-link">
-            <i class="nav-icon fas fa-home text-success"></i>
-            <p><strong>Home</strong></p>
-          </a>
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button" id="sidebarToggle2"><i class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item">
-          <a href="towns.html" class="nav-link active">
-            <i class="nav-icon fas fa-map-marker-alt text-info animate__animated animate__pulse animate__infinite"></i>
-            <p><strong>Town</strong></p>
-          </a>
+        <li class="nav-item d-flex align-items-center">
+          <img src="soi.png" alt="Logo" style="height:32px;width:auto;margin-right:8px;">
+          <div style="display:flex; flex-direction:column; line-height:1;">
+            <span style="font-weight:bold; font-size:1rem; color:#0056b3; letter-spacing:1px; text-transform:uppercase;">
+              GUJARAT DAMAN &amp; DIU GD
+            </span>
+            <span style="font-size:0.92rem; color:#e85a8b; font-weight:bold; margin-top:2px;">
+              AMRUT 2.0
+            </span>
+          </div>
         </li>
       </ul>
-    </div>
-  </aside>
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <img src="amrut-logo.png" alt="Top Logo" style="height: 40px; width: auto;">
+        </li>
+      </ul>
+    </nav>
 
-  <!-- Content -->
-  <div class="content-wrapper p-3">
-    <section class="content">
-      <div class="container-fluid">
-
-        <!-- Select Dropdown in Main Body -->
-        <div class="row mb-3">
-          <div class="col-md-4 col-sm-8 col-12">
-            <label for="townSelect" class="font-weight-bold mb-1">Select Town</label>
-            <select id="townSelect" class="form-control mb-2">
-              <option value="">-- Select Town --</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row-flex">
-          <div class="col-map">
-            <div id="map"></div>
-          </div>
-          <div class="col-table">
-            <div id="sideTownTitle" style="text-align: center; background-color: #f3e5f5; padding: 8px; font-weight: bold; color: #6a1b9a; display: none;"></div>
-            <div id="villageDetails"></div>
-            <div id="sheetDetails" class="mt-3"></div>
-            <h5 class="mt-4 text-purple text-center font-weight-bold">📌 Timeline Milestones</h5>
-            <div id="milestoneTimeline" class="mt-3 ml-2 border-left border-purple pl-3"></div>
-          </div>
-        </div>
-
+    <!-- Sidebar (with indented Select Town submenu) -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo: Only SOI logo, same size as in top navbar, not resized -->
+      <a href="index.html" class="brand-link" style="justify-content:center; background:#0056b3;">
+        <img src="soi.png" alt="Logo" style="opacity:.8; height:32px; width:auto; margin:auto; display:block;">
+      </a>
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link">
+                <i class="nav-icon fas fa-home"></i>
+                <p>Home</p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link active">
+                <i class="nav-icon fas fa-map-marker-alt"></i>
+                <p>
+                  Town
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview" style="display:block;">
+                <li class="nav-item">
+                  <a href="#" class="nav-link" style="padding-left: 2.5rem;">
+                    <p style="margin-bottom:0;">
+                      <select id="townSelect" class="form-control form-control-sm" style="margin-top:0; width: 140px;">
+                        <option value="">-- Select Town --</option>
+                      </select>
+                    </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
       </div>
-    </section>
+      <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content (reduce gap above map) -->
+    <div class="content-wrapper p-2" style="padding-top: 70px !important;">
+      <section class="content">
+        <div class="container-fluid">
+
+          <div class="row-flex" style="margin-top:-12px;">
+            <div class="col-map">
+              <div id="map"></div>
+            </div>
+            <div class="col-table" style="height: 100%;">
+              <div id="sideTownTitle" style="text-align: center; background-color: #f3e5f5; padding: 8px; font-weight: bold; color: #6a1b9a; display: none;"></div>
+              <div id="villageDetails"></div>
+              <div id="sheetDetails" class="mt-3" style="height:calc(100% - 60px);overflow-y:auto; margin-top:0;"></div>
+              <h5 class="mt-4 text-purple text-center font-weight-bold">📌 Timeline Milestones</h5>
+              <div id="milestoneTimeline" class="mt-3 ml-2 border-left border-purple pl-3"></div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
   </div>
-</div>
 
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/admin-lte@3/dist/js/adminlte.min.js"></script>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/admin-lte@3/dist/js/adminlte.min.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<script>
-  // Sidebar toggle for mobile
-  const sidebar = document.querySelector('.main-sidebar');
-  const toggleBtn = document.getElementById('sidebarToggle');
-  const backdrop = document.querySelector('.sidebar-backdrop');
-  toggleBtn.onclick = function() {
-    sidebar.classList.toggle('active');
-    backdrop.classList.toggle('active');
-  };
-  backdrop.onclick = function() {
-    sidebar.classList.remove('active');
-    backdrop.classList.remove('active');
-  };
-
-  const TOWNS_GEOJSON = 'towns.geojson';
-  const GRID_GEOJSON = 'grid.geojson';
-  const SHEET_API = 'https://script.google.com/macros/s/AKfycbzigzh2j9yMyi_CbqFXMZLeWkCsqqerRPc9sxoAFJCnVRDyf37Og-IuuYmdlN1XTny6zA/exec';
-
-  let villageLayer, gridLayer, townsDataGlobal, gridDataGlobal, sheetData = [];
-
-  async function init() {
-    document.getElementById('loadingOverlay').style.display = 'flex';
-    const [townsData, gridData, sheetResp] = await Promise.all([
-      fetch(TOWNS_GEOJSON).then(r => r.json()),
-      fetch(GRID_GEOJSON).then(r => r.json()),
-      fetch(SHEET_API).then(r => r.json())
-    ]);
-
-    townsDataGlobal = townsData;
-    gridDataGlobal = gridData;
-    sheetData = sheetResp;
-
-    document.getElementById('loadingOverlay').style.display = 'none';
-
-    const map = L.map('map').setView([22.3, 71.7], 7);
-    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18, attribution: '© OSM'
-    }).addTo(map);
-
-    const satellite = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-      maxZoom: 20, subdomains: ['mt0','mt1','mt2','mt3']
-    });
-
-    const terrain = L.tileLayer('https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
-      maxZoom: 20, subdomains: ['mt0','mt1','mt2','mt3']
-    });
-
-    L.control.layers({ OpenStreetMap: osm, Satellite: satellite, Terrain: terrain }).addTo(map);
-
-    const select = $('#townSelect');
-    const allTowns = [...new Set(townsData.features.map(f => f.properties.Town).concat(sheetData.map(s => s.Town)))];
-    allTowns.filter(Boolean).forEach(t => select.append(`<option>${t}</option>`));
-
-    select.change(() => {
-      const selected = select.val();
-      if (villageLayer) map.removeLayer(villageLayer);
-      if (gridLayer) map.removeLayer(gridLayer);
-      $('#villageDetails').empty();
-      $('#sheetDetails').empty();
-      $('#milestoneTimeline').empty();
-
-      if (!selected) {
-        $('#sideTownTitle').fadeOut();
-        return;
-      }
-
-      $('#sideTownTitle').text(`Details for Town: ${selected}`).fadeIn();
-
-      const feature = townsData.features.find(f => f.properties.Town === selected);
-      if (feature) {
-        villageLayer = L.geoJSON(feature, {
-          style: { color: '#007bff', weight: 2, fillOpacity: 0 }
-        }).addTo(map);
-        map.fitBounds(villageLayer.getBounds());
-
-        const fieldOrder = ['DISTRICT', 'TEHSIL', 'ZONE', 'Type', 'KML_SHP_Ar', 'Sheets_2k_', 'No_of_2k_s'];
-        const props = feature.properties;
-        let tableHTML = '<table id="villageAttributes"><tbody>';
-        fieldOrder.forEach(key => {
-          tableHTML += `<tr><th>${key}</th><td>${props[key] ?? '-'}</td></tr>`;
-        });
-        tableHTML += '</tbody></table>';
-        $('#villageDetails').html(tableHTML);
-      }
-
-      const gridFeatures = gridDataGlobal.features.filter(f => f.properties.Town === selected);
-      if (gridFeatures.length > 0) {
-        gridLayer = L.geoJSON({ type: 'FeatureCollection', features: gridFeatures }, {
-          style: { color: 'yellow', weight: 1, fillOpacity: 0 }
-        }).addTo(map);
-      }
-
-      const townRows = sheetData.filter(row => row.Town === selected);
-      if (townRows.length > 0) {
-        const row = townRows[0];
-        let html = '<table class="table table-bordered"><tbody>';
-        Object.entries(row).forEach(([key, value]) => {
-          html += `<tr><th>${key}</th><td>${value}</td></tr>`;
-        });
-        html += '</tbody></table>';
-        $('#sheetDetails').html(html);
-
-        if (row.Milestones) {
-          const milestones = row.Milestones.split(',').map(m => m.trim());
-          let timelineHTML = '';
-          milestones.forEach((milestone, i) => {
-            timelineHTML += `
-              <div class="position-relative mb-3 pl-3">
-                <div class="position-absolute rounded-circle bg-purple" style="width: 12px; height: 12px; left: -6px; top: 6px;"></div>
-                <div class="bg-light border rounded p-2 shadow-sm">
-                  <div class="font-weight-bold text-purple">Milestone ${i + 1}</div>
-                  <div>${milestone}</div>
-                </div>
-              </div>`;
-          });
-          $('#milestoneTimeline').html(timelineHTML);
-        } else {
-          $('#milestoneTimeline').html('<div class="text-muted">No milestones available for this town.</div>');
+  <script>
+    // Sidebar toggle for mobile
+    const sidebar = document.querySelector('.main-sidebar');
+    const toggleBtn2 = document.getElementById('sidebarToggle2');
+    const backdrop = document.querySelector('.sidebar-backdrop');
+    toggleBtn2.onclick = function(e) {
+      e.preventDefault();
+      sidebar.classList.toggle('active');
+      backdrop.classList.toggle('active');
+    };
+    backdrop.onclick = function() {
+      sidebar.classList.remove('active');
+      backdrop.classList.remove('active');
+    };
+    document.body.addEventListener('click', function(e) {
+      if (window.innerWidth <= 991 && sidebar.classList.contains('active')) {
+        if (!sidebar.contains(e.target) && !toggleBtn2.contains(e.target)) {
+          sidebar.classList.remove('active');
+          backdrop.classList.remove('active');
         }
       }
     });
-  }
 
-  init();
-</script>
+    const TOWNS_GEOJSON = 'towns.geojson';
+    const GRID_GEOJSON = 'grid.geojson';
+    const SHEET_API = 'https://script.google.com/macros/s/AKfycbzigzh2j9yMyi_CbqFXMZLeWkCsqqerRPc9sxoAFJCnVRDyf37Og-IuuYmdlN1XTny6zA/exec';
+
+    let villageLayer, gridLayer, townsDataGlobal, gridDataGlobal, sheetData = [];
+
+    async function init() {
+      document.getElementById('loadingOverlay').style.display = 'flex';
+      const [townsData, gridData, sheetResp] = await Promise.all([
+        fetch(TOWNS_GEOJSON).then(r => r.json()),
+        fetch(GRID_GEOJSON).then(r => r.json()),
+        fetch(SHEET_API).then(r => r.json())
+      ]);
+
+      townsDataGlobal = townsData;
+      gridDataGlobal = gridData;
+      sheetData = sheetResp;
+
+      document.getElementById('loadingOverlay').style.display = 'none';
+
+      // --- Make satellite the default layer ---
+      const satellite = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20, subdomains: ['mt0','mt1','mt2','mt3']
+      });
+      const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18, attribution: '© OSM'
+      });
+      const terrain = L.tileLayer('https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+        maxZoom: 20, subdomains: ['mt0','mt1','mt2','mt3']
+      });
+
+      // --- Make layer control icon small ---
+      const map = L.map('map', {
+        layers: [satellite] // Satellite as default
+      }).setView([22.3, 71.7], 7);
+
+      // Custom small icon for layer control
+      setTimeout(() => {
+        const layerControl = document.querySelector('.leaflet-control-layers-toggle');
+        if (layerControl) {
+          layerControl.style.width = '26px';
+          layerControl.style.height = '26px';
+          layerControl.style.backgroundSize = '20px 20px';
+        }
+      }, 500);
+
+      L.control.layers(
+        { Satellite: satellite, OpenStreetMap: osm, Terrain: terrain }
+      ).addTo(map);
+
+      const select = $('#townSelect');
+      const allTowns = [...new Set(townsData.features.map(f => f.properties.Town).concat(sheetData.map(s => s.Town)))];
+      allTowns.filter(Boolean).forEach(t => select.append(`<option>${t}</option>`));
+
+      select.change(() => {
+        const selected = select.val();
+        if (villageLayer) map.removeLayer(villageLayer);
+        if (gridLayer) map.removeLayer(gridLayer);
+        $('#villageDetails').empty();
+        $('#sheetDetails').empty();
+        $('#milestoneTimeline').empty();
+
+        if (!selected) {
+          $('#sideTownTitle').fadeOut();
+          return;
+        }
+
+        $('#sideTownTitle').text(selected).fadeIn();
+
+        // Elegant Table with selected fields, no header, table touches town name
+        const townRows = sheetData.filter(row => row.Town === selected);
+        if (townRows.length > 0) {
+          const row = townRows[0];
+          const tableFields = [
+            { key: "DISTRICT", label: "District" },
+            { key: "TEHSIL", label: "Tehsil" },
+            { key: "Type", label: "Type" },
+            { key: "KML Area", label: "KML Area" },
+            { key: "Sheet 2K Area", label: "Sheet 2K Area" },
+            { key: "2K Sheets", label: "2K Sheets" },
+            { key: "ZONE", label: "Zone" }
+          ];
+          let html = `
+            <table class="table table-bordered table-striped mb-0" style="background:#fff; margin-top:0;">
+              <tbody>
+          `;
+          tableFields.forEach(f => {
+            html += `<tr>
+              <td style="font-weight:600; width:40%;">${f.label}</td>
+              <td>${row[f.key] ?? '-'}</td>
+            </tr>`;
+          });
+          html += '</tbody></table>';
+          $('#sheetDetails').html(html);
+
+          // --- Elegant Timeline for all milestone fields ---
+          // List the fields in the order you want them to appear in the timeline
+          const timelineFields = [
+            { key: "Plan received from Firm", label: "Plan received from Firm", color: "#17a2b8" },
+            { key: "Plan Approved", label: "Plan Approved", color: "#28a745" },
+            { key: "1st Milstone", label: "1st Milestone", color: "#ffc107" },
+            { key: "2nd Milestone Target", label: "2nd Milestone Target", color: "#dc3545" }
+          ];
+
+          let timelineHTML = '<div class="timeline">';
+          let hasTimeline = false;
+          timelineFields.forEach((field, idx) => {
+            if (row[field.key]) {
+              hasTimeline = true;
+              timelineHTML += `
+                <div class="timeline-item">
+                  <div class="timeline-marker" style="background:${field.color};border-color:${field.color};"></div>
+                  <div class="timeline-content">
+                    <div class="timeline-title font-weight-bold mb-1" style="color:${field.color};">${field.label}</div>
+                    <div class="timeline-date text-muted" style="font-size:0.95rem;">${row[field.key]}</div>
+                  </div>
+                </div>
+              `;
+            }
+          });
+          timelineHTML += '</div>';
+          if (!hasTimeline) {
+            timelineHTML = '<div class="text-muted">No timeline data available for this town.</div>';
+          }
+          $('#milestoneTimeline').html(timelineHTML);
+
+          // Add some simple timeline CSS if not present
+          if (!document.getElementById('timeline-css')) {
+            const style = document.createElement('style');
+            style.id = 'timeline-css';
+            style.innerHTML = `
+              .timeline { position: relative; margin-left: 20px; }
+              .timeline-item { display: flex; align-items: flex-start; margin-bottom: 24px; }
+              .timeline-marker {
+                width: 14px; height: 14px; border-radius: 50%;
+                margin-right: 16px; margin-top: 2px;
+                border: 2px solid #17a2b8; background: #fff;
+                box-shadow: 0 0 0 2px #e3f7fa;
+                flex-shrink: 0;
+              }
+              .timeline-content { flex: 1; }
+              .timeline-title { font-size: 1rem; }
+              .timeline-date { font-size: 0.95rem; }
+            `;
+            document.head.appendChild(style);
+          }
+        } else {
+          $('#sheetDetails').html('<div class="text-muted">No data available for this town.</div>');
+          $('#milestoneTimeline').html('<div class="text-muted">No timeline data available for this town.</div>');
+        }
+
+        // Keep: Highlight town boundary on map if desired
+        const feature = townsData.features.find(f => f.properties.Town === selected);
+        if (feature) {
+          villageLayer = L.geoJSON(feature, {
+            style: { color: '#007bff', weight: 2, fillOpacity: 0 }
+          }).addTo(map);
+          map.fitBounds(villageLayer.getBounds());
+        }
+
+        // Keep: Show grid if available
+        const gridFeatures = gridDataGlobal.features.filter(f => f.properties.Town === selected);
+        if (gridFeatures.length > 0) {
+          gridLayer = L.geoJSON({ type: 'FeatureCollection', features: gridFeatures }, {
+            style: { color: 'yellow', weight: 1, fillOpacity: 0 }
+          }).addTo(map);
+        }
+      });
+    }
+
+    init();
+  </script>
 </body>
 </html>
