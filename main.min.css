@@ -1,0 +1,67 @@
+/* --- General Styles for Both index.html and towns.html --- */
+.info-box-text{font-size:.95rem}
+.info-box-number{font-size:1.25rem;font-weight:bold}
+.rose-gold-card{background:#007bff!important;color:#fff!important;box-shadow:0 4px 8px rgba(0,0,0,.15)}
+.rose-gold-card.selected{background:#0056b3!important;border:2px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.filtered-table-card{z-index:2}
+#filteredDataTable{font-size:.92rem}
+#filteredDataTable thead th{background:#0056b3!important;color:#fff!important;border-color:#0056b3!important}
+
+/* --- Navbar and Sidebar --- */
+.top-navbar-fixed{position:fixed;top:0;left:0;right:0;z-index:1050;width:100%;box-shadow:0 2px 8px rgba(0,0,0,.07);background:#fff}
+.main-sidebar{position:fixed!important;top:0;left:0;height:100vh;width:250px;z-index:2002;margin-top:0!important;padding-top:0!important;transition:left .3s;background:#343a40}
+.main-sidebar .brand-link{height:65px;min-height:65px;display:flex;align-items:center;background:#0056b3;color:#fff!important;font-weight:bold;font-size:1.2rem;padding:0 1rem;box-sizing:border-box}
+.main-sidebar .brand-link img{width:45px;height:auto;margin-right:10px}
+.content-wrapper{position:relative;z-index:1;margin-left:250px;transition:margin-left .3s}
+
+/* --- Responsive Adjustments --- */
+@media (max-width:767.98px){
+  body,.content-wrapper{padding-top:55px!important}
+  .main-header .navbar-nav .nav-item img{height:32px!important;margin-right:6px!important}
+  .main-header .navbar-nav .nav-item div span{font-size:.95rem!important}
+}
+@media (min-width:768px){
+  body,.content-wrapper{padding-top:65px!important}
+}
+@media (max-width:991.98px){
+  .main-sidebar{left:-250px}
+  .main-sidebar.active{left:0}
+  .sidebar-backdrop{display:block;position:fixed;z-index:1049;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.3)}
+  .sidebar-backdrop:not(.active){display:none}
+  .content-wrapper{margin-left:0}
+}
+@media (min-width:992px){
+  .sidebar-backdrop{display:none!important}
+}
+
+/* --- Sidebar Navigation --- */
+.nav-sidebar .nav-link.active{background:#007bff!important;color:#fff!important}
+.nav-sidebar .nav-link{color:#c2c7d0}
+.nav-sidebar .nav-link:hover{background:#0056b3!important;color:#fff!important}
+
+/* --- Towns Page Specific --- */
+#map{height:500px;width:100%}
+.row-flex{display:flex;flex-wrap:wrap;gap:20px}
+.col-map{flex:2 1 60%;min-width:300px}
+.col-table{flex:1 1 35%;min-width:250px}
+@media (max-width:768px){.row-flex{flex-direction:column}}
+/* Hide sidebar toggle on desktop, show on mobile */
+@media (max-width:991.98px){
+  #sidebarToggle{display:block!important;position:fixed;top:12px;left:12px;z-index:3000;width:56px;height:56px;padding:0;background:transparent;border:none;box-shadow:none;color:#007bff;border-radius:50%;cursor:pointer;outline:none;display:flex;align-items:center;justify-content:center}
+  #sidebarToggle i{font-size:2rem;pointer-events:none}
+  .sidebar-backdrop{display:none;position:fixed;z-index:1049;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.3)}
+  .sidebar-backdrop.active{display:block}
+}
+@media (min-width:992px){
+  #sidebarToggle,.sidebar-backdrop{display:none!important}
+}
+.main-sidebar{margin-top:0!important;padding-top:0!important}
+.main-sidebar .brand-link{position:sticky;top:0;z-index:1100;margin-top:0!important;padding-top:.5rem!important;padding-bottom:.5rem!important;height:65px!important;min-height:65px!important;box-sizing:border-box}
+
+/* --- Timeline Styles (for towns.html) --- */
+.timeline{position:relative;margin-left:20px}
+.timeline-item{display:flex;align-items:flex-start;margin-bottom:24px}
+.timeline-marker{width:14px;height:14px;border-radius:50%;margin-right:16px;margin-top:2px;border:2px solid #17a2b8;background:#fff;box-shadow:0 0 0 2px #e3f7fa;flex-shrink:0}
+.timeline-content{flex:1}
+.timeline-title{font-size:1rem}
+.timeline-date{font-size:.95rem}
