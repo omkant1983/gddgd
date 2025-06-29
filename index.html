@@ -149,6 +149,12 @@
       color: #fff !important;
     }
   </style>
+  <!-- Add these lines in the <head> section -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0056b3">
+  <!-- Add icons for PWA (example, adjust as needed) -->
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="sidebar-backdrop"></div>
@@ -481,6 +487,19 @@
   });
 
   init();
+  </script>
+  <!-- Add this script before </body> -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+          // Registration successful
+        }, function(err) {
+          // Registration failed
+          console.warn('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
   </script>
 </body>
 </html>
