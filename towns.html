@@ -14,6 +14,31 @@
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="stylesheet" href="main.min.css">
+  <style>
+  /* Reduce gap between navbar and content */
+  .content-wrapper {
+    padding-top: 0 !important;
+  }
+  .col-map {
+    margin-top: 0 !important;
+  }
+  /* Frame around the town name */
+  #mapTownHeading {
+    display: none;
+    text-align: center;
+    color: #6a1b9a;
+    margin-bottom: 8px;
+    border: 2px solid #6a1b9a;
+    border-radius: 8px;
+    background: #f3e5f5;
+    padding: 6px 16px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(106,27,154,0.08);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="sidebar-backdrop"></div>
@@ -65,16 +90,19 @@
         </nav>
       </div>
     </aside>
-    <div class="content-wrapper p-2" style="padding-top:70px!important;">
+    <div class="content-wrapper">
       <section class="content">
         <div class="container-fluid">
           <div class="row-flex" style="margin-top:-12px;">
-            <div class="col-map"><div id="map"></div></div>
+            <div class="col-map">
+              <h4 id="mapTownHeading" style="text-align:center;color:#6a1b9a;display:none;margin-bottom:8px;"></h4>
+              <div id="map"></div>
+            </div>
             <div class="col-table" style="height:100%;">
               <div id="sideTownTitle" style="text-align:center;background-color:#f3e5f5;padding:8px;font-weight:bold;color:#6a1b9a;display:none;"></div>
               <div id="villageDetails"></div>
               <div id="sheetDetails" class="mt-3" style="height:calc(100% - 60px);overflow-y:auto;margin-top:0;"></div>
-              <h5 class="mt-4 text-purple text-center font-weight-bold">📌 Timeline Milestones</h5>
+              <h5 id="timelineMilestonesHeading" class="mt-4 text-purple text-center font-weight-bold" style="display:none;">📌 Timeline Milestones</h5>
               <div id="milestoneTimeline" class="mt-3 ml-2 border-left border-purple pl-3"></div>
             </div>
           </div>
@@ -100,6 +128,54 @@
         navigator.serviceWorker.register('service-worker.js').then(function(){},function(err){console.warn('ServiceWorker registration failed: ',err)})
       })
     }
-  </script>
-</body>
+
+    // Show/hide Timeline Milestones heading based on town selection
+    $(document).ready(function() {
+      $('#townSelect').on('change', function() {
+        const selected = $(this).val();
+        const selectedText = $('#townSelect option:selected').text();
+        if (selected) {
+          $('#timelineMilestonesHeading').show();
+          $('#mapTownHeading').text(selectedText).show();
+        } else {
+          $('#timelineMilestonesHeading').hide();
+          $('#mapTownHeading').hide();
+        }
+      });
+    });
+
+    
+
+    // Make sure your Leaflet map is initialized as `map` before this code runs
+
+    fetch('towns.geojson')
+      .then(response => response.json())
+      .then(data => {
+        L.geoJSON(data, {
+          onEachFeature: function (feature, layer) {
+            if (feature.properties && feature.properties.name) {
+              layer.bindTooltip(feature.properties.name, {
+                permanent: true,
+                direction: 'center',
+                className: 'town-label'
+              }).openTooltip();
+            }
+          },
+          pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, {
+              radius: 6,
+              fillColor: "#6a1b9a",
+              color: "#fff",
+              weight: 2,
+              opacity: 1,
+              fillOpacity: 0.8
+            });
+          }
+        }).addTo(map);
+      });
+  </script>  </script>
+
+
+
+</html></body></body>
 </html>
