@@ -501,5 +501,39 @@
       });
     }
   </script>
+  <!-- Add this before </body> -->
+  <div style="
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    width:100vw;
+    background:#0056b3;
+    color:#fff;
+    z-index:3000;
+    padding:0;
+    height:32px;
+    overflow:hidden;
+    box-shadow:0 -2px 8px rgba(0,0,0,0.07);
+    display:flex;
+    align-items:center;
+  ">
+    <div class="gddgd-marquee-text" style="
+      display:inline-block;
+      white-space:nowrap;
+      font-weight:bold;
+      font-size:1rem;
+      will-change: transform;
+      animation: gddgd-marquee 12s linear infinite;
+    ">
+      Developed in GDDGD
+    </div>
+  </div>
+  <style>
+  @keyframes gddgd-marquee {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+  }
+  </style>
 </body>
 </html>
