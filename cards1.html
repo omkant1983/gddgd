@@ -6,6 +6,79 @@
   <title>10 Glossy Transparent Cards with Donut Charts</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    /* Top Navigation Bar */
+    .top-nav {
+      width: 100%;
+      height: 48px;
+      background: #222;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      z-index: 1001;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+    .top-nav .logo {
+      margin-right: 24px;
+      font-size: 1.2rem;
+      color: #4fc3f7;
+      font-weight: bold;
+    }
+    .top-nav .nav-links {
+      display: flex;
+      gap: 18px;
+    }
+    .top-nav .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .top-nav .nav-links a:hover {
+      color: #4fc3f7;
+    }
+
+    /* Left Navigation Bar */
+    .side-nav {
+      position: fixed;
+      top: 48px;
+      left: 0;
+      width: 180px;
+      height: calc(100% - 48px);
+      background: #23272b;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding-top: 24px;
+      z-index: 1000;
+      box-shadow: 2px 0 6px rgba(0,0,0,0.08);
+    }
+    .side-nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      transition: background 0.2s, color 0.2s;
+      border-left: 4px solid transparent;
+    }
+    .side-nav a:hover, .side-nav a.active {
+      background: #343a40;
+      color: #4fc3f7;
+      border-left: 4px solid #4fc3f7;
+    }
+
+    /* Main content adjustment for navbars */
+    .main-content {
+      margin-left: 180px;
+      margin-top: 48px;
+      padding: 24px 0 0 0;
+    }
+
     .card-container {
       display: flex;
       flex-wrap: wrap;
@@ -72,12 +145,23 @@
     .card-orange, .card-cyan, .card-pink, .card-teal, .card-brown {
       background: linear-gradient(135deg, rgba(220,53,69,0.5), rgba(167,29,42,0.5));
     }
-    @media (max-width: 450px) {
+    @media (max-width: 500px) {
       .glossy-card {
-        flex: 1 1 calc(50% - 16px);
+        flex: 1 1 calc(25% - 16px);
+      }
+      .side-nav {
+        width: 60px;
+        padding-top: 12px;
+      }
+      .side-nav a {
+        padding: 10px 8px;
+        font-size: 0.9rem;
+      }
+      .main-content {
+        margin-left: 60px;
       }
     }
-    @media (min-width: 450px) {
+    @media (min-width: 500px) {
       .glossy-card {
         flex: 1 1 calc(25% - 16px);
       }
@@ -85,75 +169,93 @@
   </style>
 </head>
 <body>
-  <div class="card-container">
-    <div class="glossy-card card-blue">
-      <div class="card-title">Blue Card</div>
-      <div class="card-chart">
-        <canvas id="cardChart0"></canvas>
-        <div class="chart-value" id="cardValue0">100%</div>
-      </div>
+  <div class="top-nav">
+    <span class="logo">My Dashboard</span>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="cards1.html" class="active">Cards</a>
+      <a href="#">Reports</a>
+      <a href="#">Settings</a>
     </div>
-    <div class="glossy-card card-blue">
-      <div class="card-title">Green Card</div>
-      <div class="card-chart">
-        <canvas id="cardChart1"></canvas>
-        <div class="chart-value" id="cardValue1">80%</div>
+  </div>
+  <div class="side-nav">
+    <a href="index.html">Dashboard</a>
+    <a href="cards1.html" class="active">Cards</a>
+    <a href="#">Analytics</a>
+    <a href="#">Users</a>
+    <a href="#">Settings</a>
+  </div>
+  <div class="main-content">
+    <div class="card-container">
+      <div class="glossy-card card-blue">
+        <div class="card-title">Blue Card</div>
+        <div class="card-chart">
+          <canvas id="cardChart0"></canvas>
+          <div class="chart-value" id="cardValue0">100%</div>
+        </div>
       </div>
-    </div>
-    <div class="glossy-card card-blue">
-      <div class="card-title">Red Card</div>
-      <div class="card-chart">
-        <canvas id="cardChart2"></canvas>
-        <div class="chart-value" id="cardValue2">60%</div>
+      <div class="glossy-card card-blue">
+        <div class="card-title">Green Card</div>
+        <div class="card-chart">
+          <canvas id="cardChart1"></canvas>
+          <div class="chart-value" id="cardValue1">80%</div>
+        </div>
       </div>
-    </div>
-    <div class="glossy-card card-blue">
-      <div class="card-title">Yellow Card</div>
-      <div class="card-chart">
-        <canvas id="cardChart3"></canvas>
-        <div class="chart-value" id="cardValue3">90%</div>
+      <div class="glossy-card card-blue">
+        <div class="card-title">Red Card</div>
+        <div class="card-chart">
+          <canvas id="cardChart2"></canvas>
+          <div class="chart-value" id="cardValue2">60%</div>
+        </div>
       </div>
-    </div>
-    <div class="glossy-card card-blue">
-      <div class="card-title">Purple Card</div>
-      <div class="card-chart">
-        <canvas id="cardChart4"></canvas>
-        <div class="chart-value" id="cardValue4">75%</div>
+      <div class="glossy-card card-blue">
+        <div class="card-title">Yellow Card</div>
+        <div class="card-chart">
+          <canvas id="cardChart3"></canvas>
+          <div class="chart-value" id="cardValue3">90%</div>
+        </div>
       </div>
-    </div>
-    <div class="glossy-card card-blue">
-      <div class="card-title">Orange Card</div>
-      <div class="card-chart">
-        <canvas id="cardChart5"></canvas>
-        <div class="chart-value" id="cardValue5">55%</div>
+      <div class="glossy-card card-blue">
+        <div class="card-title">Purple Card</div>
+        <div class="card-chart">
+          <canvas id="cardChart4"></canvas>
+          <div class="chart-value" id="cardValue4">75%</div>
+        </div>
       </div>
-    </div>
-    <div class="glossy-card card-blue">
-      <div class="card-title">Cyan Card</div>
-      <div class="card-chart">
-        <canvas id="cardChart6"></canvas>
-        <div class="chart-value" id="cardValue6">70%</div>
+      <div class="glossy-card card-blue">
+        <div class="card-title">Orange Card</div>
+        <div class="card-chart">
+          <canvas id="cardChart5"></canvas>
+          <div class="chart-value" id="cardValue5">55%</div>
+        </div>
       </div>
-    </div>
-    <div class="glossy-card card-blue">
-      <div class="card-title">Pink Card</div>
-      <div class="card-chart">
-        <canvas id="cardChart7"></canvas>
-        <div class="chart-value" id="cardValue7">65%</div>
+      <div class="glossy-card card-blue">
+        <div class="card-title">Cyan Card</div>
+        <div class="card-chart">
+          <canvas id="cardChart6"></canvas>
+          <div class="chart-value" id="cardValue6">70%</div>
+        </div>
       </div>
-    </div>
-    <div class="glossy-card card-blue">
-      <div class="card-title">Teal Card</div>
-      <div class="card-chart">
-        <canvas id="cardChart8"></canvas>
-        <div class="chart-value" id="cardValue8">85%</div>
+      <div class="glossy-card card-blue">
+        <div class="card-title">Pink Card</div>
+        <div class="card-chart">
+          <canvas id="cardChart7"></canvas>
+          <div class="chart-value" id="cardValue7">65%</div>
+        </div>
       </div>
-    </div>
-    <div class="glossy-card card-blue">
-      <div class="card-title">Brown Card</div>
-      <div class="card-chart">
-        <canvas id="cardChart9"></canvas>
-        <div class="chart-value" id="cardValue9">50%</div>
+      <div class="glossy-card card-blue">
+        <div class="card-title">Teal Card</div>
+        <div class="card-chart">
+          <canvas id="cardChart8"></canvas>
+          <div class="chart-value" id="cardValue8">85%</div>
+        </div>
+      </div>
+      <div class="glossy-card card-blue">
+        <div class="card-title">Brown Card</div>
+        <div class="card-chart">
+          <canvas id="cardChart9"></canvas>
+          <div class="chart-value" id="cardValue9">50%</div>
+        </div>
       </div>
     </div>
   </div>
