@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Town Dashboard - GDD GD</title>
+
+  <!-- AdminLTE, FontAwesome, DataTables, Animate.css -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    .info-box-text { font-size: 0.95rem; }
+    .info-box-number { font-size: 1.25rem; font-weight: bold; }
+    .table th, .table td { vertical-align: middle !important; }
+
+    .rose-gold-card {
+      background-color: #007bff !important;
+      color: #fff !important;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .rose-gold-card.selected {
+      background-color: #0056b3 !important;
+      border: 2px solid #fff;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    }
+
+    .filtered-table-card {
+      z-index: 2;
+      max-width: 480px; /* Make table narrower */
+      margin-left: auto;  /* Shift to right side */
+      margin-right: 0;
+      margin-top: 16px;
+    }
+
+    #filteredDataTable {
+      font-size: 0.88rem;
+      table-layout: fixed; /* Make columns fixed width */
+      width: 100% !important;
+    }
+    #filteredDataTable thead th, #filteredDataTable tbody td {
+      background-color: #0056b3 !important;
+      color: #fff !important;
+      border-color: #0056b3 !important;
+      padding: 0.35rem 0.5rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+      font-size: 0.88rem;
+    }
+    #filteredDataTable thead th {
+      background-color: #0056b3 !important;
+      color: #fff !important;
+      border-color: #0056b3 !important;
+    }
+    /* Alternate row coloring for table body */
+    #filteredDataTable tbody tr:nth-child(even) td {
+      background-color: #f3f6fa !important;
+      color: #222 !important;
+    }
+    #filteredDataTable tbody tr:nth-child(odd) td {
+      background-color: #fff !important;
+      color: #222 !important;
+    }
+    #filteredDataTable th:nth-child(1),
+    #filteredDataTable td:nth-child(1) { width: 40px; }
+    #filteredDataTable th:nth-child(2),
+    #filteredDataTable td:nth-child(2) { width: 90px; }
+    #filteredDataTable th:nth-child(3),
+    #filteredDataTable td:nth-child(3) { width: 90px; }
+    #filteredDataTable th:nth-child(4),
+    #filteredDataTable td:nth-child(4) { width: 110px; }
+    #filteredDataTable th:nth-child(5),
+    #filteredDataTable td:nth-child(5) { width: 90px; }
+    #filteredDataTable th:nth-child(6),
+    #filteredDataTable td:nth-child(6) { width: 90px; }
+    #filteredDataTable th:nth-child(7),
+    #filteredDataTable td:nth-child(7) { width: 90px; }
+
+    /* Responsive: On small screens, make table full width */
+    @media (max-width: 991.98px) {
+      .filtered-table-card {
+        max-width: 100vw;
+        margin-left: 0;
+        margin-right: 0;
+      }
+      #filteredDataTable th, #filteredDataTable td {
+        max-width: 70px;
+        font-size: 0.82rem;
+      }
+    }
+
+    /* Fix top navbar for mobile and desktop */
+    .top-navbar-fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1050;
+      width: 100%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      background: #fff;
+    }
+
+    /* Sidebar header always at top, no gap */
+    .main-sidebar {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 250px;
+      z-index: 2002;
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+      transition: left 0.3s;
+      background: #343a40;
+    }
+    .main-sidebar .brand-link {
+      height: 65px;
+      min-height: 65px;
+      display: flex;
+      align-items: center;
+      background: #0056b3;
+      color: #fff !important;
+      font-weight: bold;
+      font-size: 1.2rem;
+      padding: 0 1rem;
+      box-sizing: border-box;
+    }
+    .main-sidebar .brand-link img {
+      width: 45px;
+      height: auto;
+      margin-right: 10px;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      margin-left: 250px;
+      transition: margin-left 0.3s;
+    }
+
+    /* Add padding to body for fixed navbar */
+    @media (max-width: 767.98px) {
+      body, .content-wrapper {
+        padding-top: 55px !important;
+      }
+      .main-header .navbar-nav .nav-item img {
+        height: 32px !important;
+        margin-right: 6px !important;
+      }
+      .main-header .navbar-nav .nav-item div span {
+        font-size: 0.95rem !important;
+      }
+    }
+    @media (min-width: 768px) {
+      body, .content-wrapper {
+        padding-top: 65px !important;
+      }
+    }
+
+    /* Hide sidebar on mobile, show toggle button */
+    @media (max-width: 991.98px) {
+      .main-sidebar {
+        left: -250px;
+      }
+      .main-sidebar.active {
+        left: 0;
+      }
+      .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        z-index: 1049;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.3);
+      }
+      .sidebar-backdrop:not(.active) {
+        display: none;
+      }
+      .content-wrapper {
+        margin-left: 0;
+      }
+    }
+    @media (min-width: 992px) {
+      .sidebar-backdrop {
+        display: none !important;
+      }
+    }
+
+    .nav-sidebar .nav-link.active {
+      background-color: #007bff !important;
+      color: #fff !important;
+    }
+    .nav-sidebar .nav-link {
+      color: #c2c7d0;
+    }
+    .nav-sidebar .nav-link:hover {
+      background-color: #0056b3 !important;
+      color: #fff !important;
+    }
+
+    /* New styles for glossy cards */
+    .card-container {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .glossy-card {
+      width: 180px; /* Increased width */
+      height: 160px; /* Increased height */
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between; /* Adjust spacing */
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.2); /* Transparent background */
+      border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+      padding: 10px; /* Added padding */
+    }
+    .card-title {
+      font-size: 1rem;
+      text-align: center;
+    }
+    .card-chart {
+      position: relative; /* Ensure the chart is positioned relative to the card */
+      width: 100%; /* Make chart fit the card */
+      height: 100%; /* Make chart fit the card */
+    }
+    .chart-value {
+      position: absolute; /* Center the value within the card */
+      top: calc(50% + 30px); /* Move 20 pixels down */
+      left: calc(50% + 5px); /* Center horizontally */
+      transform: translate(-50%, -50%);
+      font-size: 1.8rem; /* Adjust font size */
+      font-weight: bold;
+      color: #027cff;
+      text-align: center;
+      display: block; /* Ensure the value is visible */
+    }
+    .card-blue {
+      background: linear-gradient(135deg, rgba(0, 123, 255, 0.5), rgba(0, 86, 179, 0.5));
+    }
+    .card-green {
+      background: linear-gradient(135deg, rgba(40, 167, 69, 0.5), rgba(30, 126, 52, 0.5));
+    }
+    .card-red {
+      background: linear-gradient(135deg, rgba(220, 53, 69, 0.5), rgba(167, 29, 42, 0.5));
+    }
+    .card-yellow {
+      background: linear-gradient(135deg, rgba(255, 193, 7, 0.5), rgba(224, 168, 0, 0.5));
+    }
+  </style>
+  <!-- Add these lines in the <head> section -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0056b3">
+  <!-- Add icons for PWA (example, adjust as needed) -->
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="sidebar-backdrop"></div>
+
+  <!-- AdminLTE Sidebar -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo: Only SOI logo, same size as in top navbar, not resized -->
+    <a href="index.html" class="brand-link" style="justify-content:center; background:#0056b3;">
+      <img src="soi.png" alt="Logo" style="opacity:.8; height:32px; width:auto; margin:auto; display:block;">
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link active">
+              <i class="nav-icon fas fa-home"></i>
+              <p>Home</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="towns.html" class="nav-link">
+              <i class="nav-icon fas fa-map-marker-alt"></i>
+              <p>Town</p>
+            </a>
+          </li>
+          <!-- Add this block below the Home tab in the sidebar menu -->
+          <li class="nav-item">
+            <a href="ganttchart.html" class="nav-link">
+              <i class="nav-icon fas fa-chart-bar"></i>
+              <p>Timeline Chart</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light top-navbar-fixed">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button" id="sidebarToggle2"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <img src="soi.png" alt="Logo" style="height:32px;width:auto;margin-right:8px;">
+          <div style="display:flex; flex-direction:column; line-height:1;">
+            <span style="font-weight:bold; font-size:1rem; color:#0056b3; letter-spacing:1px; text-transform:uppercase;">
+              GUJARAT DAMAN &amp; DIU GD
+            </span>
+            <span style="font-size:0.92rem; color:#e85a8b; font-weight:bold; margin-top:2px;">
+              AMRUT 2.0
+            </span>
+          </div>
+        </li>
+      </ul>
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <img src="amrut-logo.png" alt="Top Logo" style="height: 40px; width: auto;">
+        </li>
+      </ul>
+    </nav>
+    <!-- Content -->
+    <div class="content-wrapper p-3">
+      <section class="content">
+        <div class="container-fluid">
+          <!-- Summary Cards -->
+          <div class="card-container">
+            <div class="glossy-card card-blue">
+              <div class="card-title">Blue Card</div>
+              <div class="card-chart">
+                <canvas id="blueCardChart"></canvas>
+                <div class="chart-value" id="blueCardValue">100%</div>
+              </div>
+            </div>
+            <div class="glossy-card card-green">
+              <div class="card-title">Green Card</div>
+              <div class="card-chart">
+                <canvas id="greenCardChart"></canvas>
+                <div class="chart-value" id="greenCardValue">60%</div>
+              </div>
+            </div>
+            <div class="glossy-card card-red">
+              <div class="card-title">Red Card</div>
+              <div class="card-chart">
+                <canvas id="redCardChart"></canvas>
+                <div class="chart-value" id="redCardValue">60%</div>
+              </div>
+            </div>
+            <div class="glossy-card card-yellow">
+              <div class="card-title">Yellow Card</div>
+              <div class="card-chart">
+                <canvas id="yellowCardChart"></canvas>
+                <div class="chart-value" id="yellowCardValue">80%</div>
+              </div>
+            </div>
+          </div>
+          <!-- Removed Floating Table -->
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="loadingOverlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2000;background:rgba(255,255,255,0.8);display:flex;align-items:center;justify-content:center;">
+    <div>
+      <i class="fas fa-spinner fa-spin fa-3x" style="color:#007bff;"></i>
+      <div style="margin-top:10px;text-align:center;color:#007bff;font-weight:bold;">Loading...</div>
+    </div>
+  </div>
+
+  <!-- Modal for Filtered Table -->
+  <div class="modal fade" id="filteredTableModal" tabindex="-1" role="dialog" aria-labelledby="filteredTableModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content" style="border-radius:18px;">
+        <div class="modal-header" style="background:#0056b3;color:#fff;">
+          <h5 class="modal-title" id="filteredTableModalLabel">Filtered Table</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#fff;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body p-1"><!-- changed p-2 to p-1 -->
+          <div class="card filtered-table-card animate__animated" style="min-width:0;">
+            <div class="card-body table-responsive p-1">
+              <table id="filteredDataTable" class="table table-bordered table-hover display nowrap" style="width:100%">
+                <thead></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/admin-lte@3/dist/js/adminlte.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+  const SHEET_API = 'https://script.google.com/macros/s/AKfycbzigzh2j9yMyi_CbqFXMZLeWkCsqqerRPc9sxoAFJCnVRDyf37Og-IuuYmdlN1XTny6zA/exec';
+
+  async function init() {
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    loadingOverlay.style.display = 'flex';
+
+    try {
+      const response = await fetch(SHEET_API);
+      const sheetData = await response.json();
+      renderSummaryCards(sheetData); // Ensure cards are rendered
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      loadingOverlay.style.display = 'none';
+    }
+  }
+
+  function renderSummaryCards(data) {
+    const container = document.getElementById('summaryCards');
+    container.style.display = 'flex'; // Ensure cards are visible
+    container.innerHTML = '';
+
+    const fields = [
+      { name: "Total Towns", key: "Town", type: "count" },
+      { name: "Checkpoint Planning", key: "Checkpoint Planning", type: "count" },
+      { name: "Plan received from Firm", key: "Plan received from Firm", type: "count" },
+      { name: "Plan Approved", key: "Plan Approved", type: "count" },
+      { name: "1st Milestone", key: "1st Milestone", type: "count" },
+      { name: "2nd Milestone Target", key: "2nd Milestone Target", type: "count" }
+    ];
+
+    const summaries = {};
+    fields.forEach(field => {
+      if (field.type === "count") {
+        summaries[field.name] = data.filter(row => row[field.key] && row[field.key].trim() !== "").length;
+      }
+    });
+
+    fields.forEach(field => {
+      container.innerHTML += `
+        <div class="col-md-3 col-sm-6 col-12 card-table-container">
+          <div class="info-box rose-gold-card">
+            <span class="info-box-icon"><i class="fas fa-database"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">${field.name}</span>
+              <span class="info-box-number">${summaries[field.name]}</span>
+            </div>
+          </div>
+        </div>`;
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+  </script>
+  <!-- Add this script before </body> -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+          // Registration successful
+        }, function(err) {
+          // Registration failed
+          console.warn('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
+  <!-- Add this before </body> -->
+  <div style="
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    width:100vw;
+    background:#0056b3;
+    color:#fff;
+    z-index:3000;
+    padding:0;
+    height:32px;
+    overflow:hidden;
+    box-shadow:0 -2px 8px rgba(0,0,0,0.07);
+    display:flex;
+    align-items:center;
+  ">
+    <div class="gddgd-marquee-text" style="
+      display:inline-block;
+      white-space:nowrap;
+      font-weight:bold;
+      font-size:1rem;
+      will-change: transform;
+      animation: gddgd-marquee 12s linear infinite;
+    ">
+      55 Towns - Check Point Planning completed
+    </div>
+  </div>
+  <style>
+  @keyframes gddgd-marquee {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+  }
+  </style>
+</body>
+</html>
