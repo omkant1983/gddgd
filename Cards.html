@@ -73,6 +73,16 @@
     .card-yellow {
       background: linear-gradient(135deg, rgba(255, 193, 7, 0.5), rgba(224, 168, 0, 0.5));
     }
+    @media (max-width: 768px) {
+      .glossy-card {
+        flex: 1 1 calc(50% - 16px); /* Ensure two cards per row */
+      }
+    }
+    @media (min-width: 769px) {
+      .glossy-card {
+        flex: 1 1 calc(25% - 16px); /* Ensure four cards per row */
+      }
+    }
   </style>
 </head>
 <body>
