@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>10 Glossy Transparent Cards with Donut Charts</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .glossy-card {
+      width: 180px;
+      height: 160px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-title {
+      font-size: 1rem;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .card-chart {
+      position: relative;
+      width: 80%;
+      aspect-ratio: 1 / 1;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 240px;
+      min-width: 120px;
+      margin-top: -50px; /* Move chart upwards */
+    }
+    canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .chart-value {
+      position: absolute;
+      top: 65%; /* Move value downward */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #fff;
+      text-align: center;
+      display: block;
+      pointer-events: none;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .card-blue, .card-green, .card-red, .card-yellow, .card-purple,
+    .card-orange, .card-cyan, .card-pink, .card-teal, .card-brown {
+      background: linear-gradient(135deg, rgba(220,53,69,0.5), rgba(167,29,42,0.5));
+    }
+    @media (max-width: 768px) {
+      .glossy-card {
+        flex: 1 1 calc(50% - 16px);
+      }
+    }
+    @media (min-width: 769px) {
+      .glossy-card {
+        flex: 1 1 calc(25% - 16px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card-container">
+    <div class="glossy-card card-blue">
+      <div class="card-title">Blue Card</div>
+      <div class="card-chart">
+        <canvas id="cardChart0"></canvas>
+        <div class="chart-value" id="cardValue0">100%</div>
+      </div>
+    </div>
+    <div class="glossy-card card-blue">
+      <div class="card-title">Green Card</div>
+      <div class="card-chart">
+        <canvas id="cardChart1"></canvas>
+        <div class="chart-value" id="cardValue1">80%</div>
+      </div>
+    </div>
+    <div class="glossy-card card-blue">
+      <div class="card-title">Red Card</div>
+      <div class="card-chart">
+        <canvas id="cardChart2"></canvas>
+        <div class="chart-value" id="cardValue2">60%</div>
+      </div>
+    </div>
+    <div class="glossy-card card-blue">
+      <div class="card-title">Yellow Card</div>
+      <div class="card-chart">
+        <canvas id="cardChart3"></canvas>
+        <div class="chart-value" id="cardValue3">90%</div>
+      </div>
+    </div>
+    <div class="glossy-card card-blue">
+      <div class="card-title">Purple Card</div>
+      <div class="card-chart">
+        <canvas id="cardChart4"></canvas>
+        <div class="chart-value" id="cardValue4">75%</div>
+      </div>
+    </div>
+    <div class="glossy-card card-blue">
+      <div class="card-title">Orange Card</div>
+      <div class="card-chart">
+        <canvas id="cardChart5"></canvas>
+        <div class="chart-value" id="cardValue5">55%</div>
+      </div>
+    </div>
+    <div class="glossy-card card-blue">
+      <div class="card-title">Cyan Card</div>
+      <div class="card-chart">
+        <canvas id="cardChart6"></canvas>
+        <div class="chart-value" id="cardValue6">70%</div>
+      </div>
+    </div>
+    <div class="glossy-card card-blue">
+      <div class="card-title">Pink Card</div>
+      <div class="card-chart">
+        <canvas id="cardChart7"></canvas>
+        <div class="chart-value" id="cardValue7">65%</div>
+      </div>
+    </div>
+    <div class="glossy-card card-blue">
+      <div class="card-title">Teal Card</div>
+      <div class="card-chart">
+        <canvas id="cardChart8"></canvas>
+        <div class="chart-value" id="cardValue8">85%</div>
+      </div>
+    </div>
+    <div class="glossy-card card-blue">
+      <div class="card-title">Brown Card</div>
+      <div class="card-chart">
+        <canvas id="cardChart9"></canvas>
+        <div class="chart-value" id="cardValue9">50%</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const cardCharts = [
+      { id: 'cardChart0', valueId: 'cardValue0', percentage: 100 },
+      { id: 'cardChart1', valueId: 'cardValue1', percentage: 80 },
+      { id: 'cardChart2', valueId: 'cardValue2', percentage: 60 },
+      { id: 'cardChart3', valueId: 'cardValue3', percentage: 90 },
+      { id: 'cardChart4', valueId: 'cardValue4', percentage: 75 },
+      { id: 'cardChart5', valueId: 'cardValue5', percentage: 55 },
+      { id: 'cardChart6', valueId: 'cardValue6', percentage: 70 },
+      { id: 'cardChart7', valueId: 'cardValue7', percentage: 65 },
+      { id: 'cardChart8', valueId: 'cardValue8', percentage: 85 },
+      { id: 'cardChart9', valueId: 'cardValue9', percentage: 50 }
+    ];
+
+    cardCharts.forEach(chart => {
+      const ctx = document.getElementById(chart.id).getContext('2d');
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Completed', 'Remaining'],
+          datasets: [{
+            data: [chart.percentage, 100 - chart.percentage],
+            backgroundColor: ['rgba(0,200,83,0.8)', 'rgba(200,200,200,0.3)'], // green and gray
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          rotation: -90,
+          circumference: 180,
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+      document.getElementById(chart.valueId).textContent = `${chart.percentage}%`;
+    });
+  </script>
+</body>
+</html>
+      });
+      document.getElementById(chart.valueId).textContent = `${chart.percentage}%`;
+    });
+  </script>
+</body>
+</html>
+</html>

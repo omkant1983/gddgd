@@ -17,6 +17,10 @@
     }
     canvas {
       display: block;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100%;
+      max-height: 100%;
     }
     .card-container {
       display: flex;
@@ -26,8 +30,8 @@
       margin-top: 20px;
     }
     .glossy-card {
-      width: 180px; /* Increased width */
-      height: 160px; /* Increased height */
+      width: 180px;
+      height: 160px;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       display: flex;
@@ -46,20 +50,27 @@
       text-align: center;
     }
     .card-chart {
-      position: relative; /* Ensure the chart is positioned relative to the card */
-      width: 100%; /* Make chart fit the card */
-      height: 100%; /* Make chart fit the card */
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 120px;
+      min-width: 60px;
     }
     .chart-value {
-      position: absolute; /* Center the value within the card */
-      top: calc(50% + 30px); /* Move 20 pixels down */
-      left:calc(50% + 5px); /* Center horizontally */
+      position: absolute;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 1.8rem; /* Adjust font size */
+      font-size: 1.4rem;
       font-weight: bold;
       color: #027cff;
       text-align: center;
-      display: block; /* Ensure the value is visible */
+      display: block;
+      pointer-events: none;
     }
     .card-blue {
       background: linear-gradient(135deg, rgba(0, 123, 255, 0.5), rgba(0, 86, 179, 0.5));
@@ -115,34 +126,6 @@
         <div class="chart-value" id="yellowCardValue">80%</div>
       </div>
     </div>
-    <div class="glossy-card card-blue">
-      <div class="card-title">Blue Card</div>
-      <div class="card-chart">
-        <canvas id="blueCardChart2"></canvas>
-        <div class="chart-value" id="blueCardValue2">100%</div>
-      </div>
-    </div>
-    <div class="glossy-card card-green">
-      <div class="card-title">Green Card</div>
-      <div class="card-chart">
-        <canvas id="greenCardChart2"></canvas>
-        <div class="chart-value" id="greenCardValue2">60%</div>
-      </div>
-    </div>
-    <div class="glossy-card card-red">
-      <div class="card-title">Red Card</div>
-      <div class="card-chart">
-        <canvas id="redCardChart2"></canvas>
-        <div class="chart-value" id="redCardValue2">60%</div>
-      </div>
-    </div>
-    <div class="glossy-card card-yellow">
-      <div class="card-title">Yellow Card</div>
-      <div class="card-chart">
-        <canvas id="yellowCardChart2"></canvas>
-        <div class="chart-value" id="yellowCardValue2">80%</div>
-      </div>
-    </div>
   </div>
 
   <script>
@@ -150,11 +133,7 @@
       { id: 'blueCardChart', percentage: 100, color: 'rgba(0, 123, 255, 0.5)' },
       { id: 'greenCardChart', percentage: 60, color: 'rgba(40, 167, 69, 0.5)' },
       { id: 'redCardChart', percentage: 60, color: 'rgba(220, 53, 69, 0.5)' },
-      { id: 'yellowCardChart', percentage: 80, color: 'rgba(255, 193, 7, 0.5)' },
-      { id: 'blueCardChart2', percentage: 100, color: 'rgba(0, 123, 255, 0.5)' },
-      { id: 'greenCardChart2', percentage: 60, color: 'rgba(40, 167, 69, 0.5)' },
-      { id: 'redCardChart2', percentage: 60, color: 'rgba(220, 53, 69, 0.5)' },
-      { id: 'yellowCardChart2', percentage: 80, color: 'rgba(255, 193, 7, 0.5)' }
+      { id: 'yellowCardChart', percentage: 80, color: 'rgba(255, 193, 7, 0.5)' }
     ];
 
     cardCharts.forEach(chart => {
