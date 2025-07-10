@@ -10,7 +10,7 @@
     .top-nav {
       width: 100%;
       height: 48px;
-      background: #222;
+      background: #222222;
       color: #fff;
       display: flex;
       align-items: center;
@@ -18,7 +18,7 @@
       font-size: 1.1rem;
       font-weight: bold;
       letter-spacing: 1px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 6px rgba(124, 245, 24, 0.08);
       z-index: 1001;
       position: fixed;
       top: 0;
@@ -103,6 +103,10 @@
       padding: 10px;
       position: relative;
       overflow: hidden;
+      box-sizing: border-box;
+      flex: 1 1 calc(25% - 16px);
+      max-width: 220px;
+      min-width: 140px;
     }
     .card-title {
       font-size: 1rem;
@@ -111,15 +115,15 @@
     }
     .card-chart {
       position: relative;
-      width: 80%;
+      width: 90%;
       aspect-ratio: 1 / 1;
       margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: center;
       max-width: 240px;
-      min-width: 120px;
-      margin-top: -50px; /* Move chart upwards */
+      min-width: 80px;
+      margin-top: -30px;
     }
     canvas {
       display: block;
@@ -130,10 +134,10 @@
     }
     .chart-value {
       position: absolute;
-      top: 65%; /* Move value downward */
+      top: 65%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       font-weight: bold;
       color: #fff;
       text-align: center;
@@ -145,46 +149,45 @@
     .card-orange, .card-cyan, .card-pink, .card-teal, .card-brown {
       background: linear-gradient(135deg, rgba(220,53,69,0.5), rgba(167,29,42,0.5));
     }
-    @media (max-width: 500px) {
+    @media (max-width: 900px) {
       .glossy-card {
-        flex: 1 1 calc(25% - 16px);
-      }
-      .side-nav {
-        width: 60px;
-        padding-top: 12px;
-      }
-      .side-nav a {
-        padding: 10px 8px;
-        font-size: 0.9rem;
-      }
-      .main-content {
-        margin-left: 60px;
+        flex: 1 1 calc(33.333% - 16px);
+        max-width: 48vw;
       }
     }
-    @media (min-width: 500px) {
+    @media (max-width: 600px) {
       .glossy-card {
-        flex: 1 1 calc(25% - 16px);
+        flex: 1 1 calc(50% - 16px);
+        max-width: 98vw;
+        min-width: 140px;
+        height: 150px;
+      }
+      .card-chart {
+        max-width: 100vw;
+        min-width: 60px;
+        margin-top: -20px;
+      }
+      .card-title {
+        font-size: 0.95rem;
+      }
+      .chart-value {
+        font-size: 1rem;
+      }
+    }
+    @media (max-width: 400px) {
+      .glossy-card {
+        min-width: 120px;
+        height: 120px;
+        padding: 6px;
+      }
+      .card-title {
+        font-size: 0.85rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="top-nav">
-    <span class="logo">My Dashboard</span>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="cards1.html" class="active">Cards</a>
-      <a href="#">Reports</a>
-      <a href="#">Settings</a>
-    </div>
-  </div>
-  <div class="side-nav">
-    <a href="index.html">Dashboard</a>
-    <a href="cards1.html" class="active">Cards</a>
-    <a href="#">Analytics</a>
-    <a href="#">Users</a>
-    <a href="#">Settings</a>
-  </div>
+
   <div class="main-content">
     <div class="card-container">
       <div class="glossy-card card-blue">
@@ -281,7 +284,7 @@
           labels: ['Completed', 'Remaining'],
           datasets: [{
             data: [chart.percentage, 100 - chart.percentage],
-            backgroundColor: ['rgba(0,200,83,0.8)', 'rgba(200,200,200,0.3)'], // green and gray
+            backgroundColor: ['rgba(0,200,83,0.8)', 'rgba(200,200,200,0.3)'],
             borderWidth: 0
           }]
         },
